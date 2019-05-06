@@ -50,7 +50,6 @@ int main()
     }
     
     //When get a SIGALRM, the main process will enter another loop for pause()
-    int n;
     while(alive){}
     return 0;
 }

@@ -1,15 +1,28 @@
 #include "hasp.h"
 #include <iostream>
-#include <stdio.h>         //printf()
-#include <unistd.h>        //pause()
 #include <signal.h>        //signal()
-#include <string.h>        //memset()
 #include <sys/time.h>      //struct itimerval, setitimer()
 
-static int count = 0;
+int alive = 1;
+
+void isDvAlive() {
+    FILE *fstream = NULL;
+    char buff[1024]; 
+    memset(buff, 0, sizeof(buff)); 
+    fstream = popen("pgrep deepvesselffr","r");
+
+    while(NULL != fgets(buff, sizeof(buff), fstream)) {} 
+
+    if (strlen(buff) == 0) {
+        alive = 0;
+    }    
+    pclose(fstream); 
+};
 
 void check(int signo)
 {
+    isDvAlive();
+    if (!alive) return;
     int ret = findHasp();
     std::string hasp = "nohasp";
     if (ret == 1) hasp = "hashasp";
@@ -38,10 +51,7 @@ int main()
     
     //When get a SIGALRM, the main process will enter another loop for pause()
     int n;
-    while(std::cin >> n)
-    {
-        pause();
-    }
+    while(alive){}
     return 0;
 }
 

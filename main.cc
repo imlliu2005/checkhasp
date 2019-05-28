@@ -2,6 +2,7 @@
 #include <iostream>
 #include <signal.h>        //signal()
 #include <sys/time.h>      //struct itimerval, setitimer()
+#include <unistd.h> 
 
 int alive = 1;
 
@@ -50,7 +51,9 @@ int main()
     }
     
     //When get a SIGALRM, the main process will enter another loop for pause()
-    while(alive){}
+    while(alive){
+        sleep(2000);
+    }
     return 0;
 }
 

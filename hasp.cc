@@ -20,8 +20,6 @@ int findHasp(){
         sscanf(line, "%d %d %d %s", &major, &minor, &blocks, name);
         if(-1 == major || -1 == minor || -1 == blocks || memcmp(name, "ram", 3) == 0)
             continue;
-        // printf("%d, %d, %d, %s\n", major, minor, blocks, name);
-
         char dev[0xff];
         sprintf(dev, "/dev/%s", name);
         FILE *diskfp = fopen(dev, "r+b");
@@ -32,6 +30,7 @@ int findHasp(){
         if(!nR){
             continue;
         } else {
+            fclose(fp);
             return nR;
         }         
     }

@@ -5,6 +5,8 @@
 #include <unistd.h> 
 
 int alive = 1;
+// 辅助dv程序判断是否是收到的第一条消息
+int first = 0;
 
 void isDvAlive() {
     FILE *fstream = NULL;
@@ -27,7 +29,14 @@ void check(int signo)
     int ret = findHasp();
     std::string hasp = "nohasp";
     if (ret == 1) hasp = "hashasp";
-    std::cout<<hasp<<std::endl;
+    if (first == 0) {
+        first = 1;
+        hasp = hasp + "first";
+        std::cout<<hasp<<std::endl;
+    } 
+    else {
+        std::cout<<hasp<<std::endl;
+    }    
 }
 
 int main()
